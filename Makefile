@@ -5,8 +5,8 @@ BINS=kissdb-test tst
 
 all:	$(BINS)
 
-kissdb-test:	kissdb.c kissdb.h
-	$(CC) -Wall -O2 -DKISSDB_TEST -o kissdb-test kissdb.c
+kissdb-test:	kissdb-test.c kissdb.o kissdb.h
+	$(CC) -Wall -O2 -o kissdb-test kissdb-test.c kissdb.o
 
 kissdb.o:	kissdb.c kissdb.h
 	$(CC) -c -Wall -O2 -o kissdb.o kissdb.c
