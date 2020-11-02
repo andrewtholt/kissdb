@@ -15,3 +15,7 @@
 *.exe
 *.out
 *.app
+Doc
+kissdb-test
+tst
+*.db
