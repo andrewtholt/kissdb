@@ -19,11 +19,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#ifdef _WIN32
-#define fseeko _fseeki64
-#define ftello _ftelli64
-#endif
-
 #define KISSDB_HEADER_SIZE ((sizeof(uint64_t) * 3) + 4)
 
 /* djb2 hash function */
@@ -49,20 +44,12 @@ int KISSDB_open(
 	uint64_t *httmp;
 	uint64_t *hash_tables_rea;
 
-#ifdef _WIN32
-	db->f = (FILE *)0;
-	fopen_s(&db->f,path,((mode == KISSDB_OPEN_MODE_RWREPLACE) ? "w+b" : (((mode == KISSDB_OPEN_MODE_RDWR)||(mode == KISSDB_OPEN_MODE_RWCREAT)) ? "r+b" : "rb")));
-#else
 	db->f = fopen(path,((mode == KISSDB_OPEN_MODE_RWREPLACE) ? "w+b" : (((mode == KISSDB_OPEN_MODE_RDWR)||(mode == KISSDB_OPEN_MODE_RWCREAT)) ? "r+b" : "rb")));
-#endif
+
 	if (!db->f) {
 		if (mode == KISSDB_OPEN_MODE_RWCREAT) {
-#ifdef _WIN32
-			db->f = (FILE *)0;
-			fopen_s(&db->f,path,"w+b");
-#else
+
 			db->f = fopen(path,"w+b");
-#endif
 		}
 		if (!db->f)
 			return KISSDB_ERROR_IO;
